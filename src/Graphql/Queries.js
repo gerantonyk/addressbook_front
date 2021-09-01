@@ -10,22 +10,6 @@ export const GET_USERS = gql`
   }
 `;
 
-// export const GET_CONTACTS = gql`
-// query {
-//   user(id:3) {
-//     contacts {
-//       id,
-//       name,
-//       lastname,
-//       address,
-//       phone,
-//       birthday 
-//     }
-//   }
-// }
-// `;
-
-
 export const GET_CONTACTS = gql`
 query user($id: Int) {
   user(id: $id) {
@@ -33,10 +17,26 @@ query user($id: Int) {
       id,
       name,
       lastname,
+      email,
       address,
       phone,
       birthday 
     }
+  }
+}
+`;
+
+export const GET_CONTACT = gql`
+query contact($id:Int!) {
+  contact(id:$id) {
+    id,
+    name,
+    lastname,
+    address,
+    email,
+    phone,
+    birthday,
+    address
   }
 }
 `;

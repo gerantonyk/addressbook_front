@@ -4,12 +4,14 @@ import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from "@ap
 import {onError} from '@apollo/client/link/error'
 import Landing from './Components/Landing';
 import Contacts from './Components/Contacts';
+import ContactForm from './Components/ContactForm';
 
-const errorLink = onError(({ graphqlErrors, networkError }) => {
-  if (graphqlErrors) {
-    graphqlErrors.map(({ message, location, path }) => {
-      alert(`Graphql error ${message}`);
-    });
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    console.log('graphQLErrors', graphQLErrors);
+  }
+  if (networkError) {
+    console.log('networkError', networkError);
   }
 });
 
@@ -40,7 +42,19 @@ function App() {
           path="/contacts/:userId"
           render={({ match }) => (
             <Contacts userId={match.params.userId} />  
-          )}/>                        
+          )}/>  
+        <Route
+          exact
+          path="/contact/:userId/newcontact"
+          render={({ match }) => (
+            <ContactForm  userId={match.params.userId} />  
+          )}/>               
+        <Route
+          exact
+          path="/contact/:userId/:contactId"
+          render={({ match }) => (
+            <ContactForm contactId={match.params.contactId} userId={match.params.userId} />  
+          )}/>                                    
         </Switch>
       </div>
     </ApolloProvider>

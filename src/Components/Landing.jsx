@@ -7,21 +7,24 @@ import { GET_USERS } from "../Graphql/Queries";
 
 export default function Landing() {
   const [user, setUser] = useState(''); 
-  const {loading, data } = useQuery(GET_USERS);
+  const {loading, data,error } = useQuery(GET_USERS);
   const [users, setUsers] = useState([]);
   useEffect(() => {
     if (data) {
       setUsers(data.users);
+      setUser(data.users[0])
     }
   }, [data]);
   function onChange(user) {
     setUser(user)
   }
+  if (loading) return 'Submitting...';
+  if (error) return `Submission error! ${error.message}`;
 
   return (
   
     <div className= 'vacio'>
-    {!loading?<>
+ 
     <br></br>
     <br></br>
       <h1>Select an user</h1>
@@ -35,7 +38,7 @@ export default function Landing() {
       {user?<Link to={'/contacts/'+user}>                 
         <button type="button">¡Ingresar!</button>  
       </Link>:<></>}
-      </>:<h1>Cargando</h1>}
+      
     </div>
     
     )
