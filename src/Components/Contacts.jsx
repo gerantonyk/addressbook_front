@@ -5,12 +5,25 @@ import { GET_CONTACTS } from "../Graphql/Queries";
 import { useMutation } from "@apollo/client";
 import { DELETE_CONTACT } from "../Graphql/Mutations";
 import Pagination from "./Pagination";
-
+import { AddIcon,EditIcon,DeleteIcon} from '@chakra-ui/icons'
+import { 
+  Box,
+  Button,
+  Heading,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  HStack,
+  Text
+} from "@chakra-ui/react"
 
 export default function Contacts({userId}) {
 
   const [currentPage,setCurrentPage] = useState('1')
-  const [contactsPerPage] = useState('2')
+  const [contactsPerPage] = useState('5')
   const [contacts, setContacts] = useState([]); 
   const {loading, data,refetch } = useQuery(GET_CONTACTS,{ variables:{id:parseInt(userId)}});
   const [deleteContact, { error }] = useMutation(DELETE_CONTACT,{
@@ -28,8 +41,11 @@ export default function Contacts({userId}) {
   }, [data]);
 
 function deleteContactWrapper(contactId) {
-  deleteContact({variables: {id: parseInt(contactId)}})
-  refetch()
+  if (window.confirm("Are you sure you want to delete this contact?")) {
+    deleteContact({variables: {id: parseInt(contactId)}})
+    refetch()
+  }
+
 }
 
 function paginate(pageNumber) {
@@ -44,48 +60,71 @@ const indexOfFirstContact = indexOfLastContact - contactsPerPage
 const currentContacts     = contacts.slice(indexOfFirstContact,indexOfLastContact)
 
 return (
-  <div>
-    <div>
-      <h1>Bienvenido</h1>
-      {userId}
-    </div>
+  <Box w="100%">
+      <Box bgGradient="linear(to-t, teal.200, teal.500)" w="100%" p={4} color="white">
+        <Heading>Contacts</Heading>
+      </Box>
+      <Box  align="right" mt={2} w="100%">
+        <Link to={'/contact/'+userId+'/newcontact'} align="left">
+          <Button bg="teal.300" color="white" mr={2} >
+            <HStack spacing="0.5rem">
+              <Text >New Contact</Text> 
+                <AddIcon w={6} h={6} /> 
+              </HStack>
+          </Button>
+
+        </Link>      
+      </Box>
+      
     <div align="center">
-    <Link to={'/contact/'+userId+'/newcontact'}><button >new</button></Link>
-      <table>
-        <thead align="left">
-          <tr>
-            <th>name</th>
-            <th>lastname</th>
-            <th>phone</th>
-            <th>email</th>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+    
+      <Table variant="simple" size="sm">
+        <Thead align="left">
+          <Tr>
+            <Th>name</Th>
+            <Th>lastname</Th>
+            <Th>phone</Th>
+            <Th>email</Th>
+            <Th>address</Th>
+            <Th>birthday</Th>
+            <Th></Th>
+          </Tr>
+        </Thead>
+        <Tbody>
           {currentContacts.map(c => {
             return (
-              <tr key={c.id}>
-                <td>{c.name}</td>
-                <td>{c.lastname}</td>
-                <td>{c.phone}</td>
-                <td>{c.email}</td>                        
-                <td><button value={c.id} onClick={(e) => {deleteContactWrapper(e.target.value)}}>eliminar</button></td>
-                <td><Link to={'/contact/'+userId+'/'+c.id}><button value={c.id}>modificar</button></Link></td>
-              </tr>
+              <Tr key={c.id}>
+                <Td>{c.name}</Td>
+                <Td>{c.lastname}</Td>
+                <Td>{c.phone}</Td>
+                <Td>{c.email}</Td>   
+                <Td>{c.address}</Td>
+                <Td>{c.birthday}</Td>                        
+                <Td>
+                  <Button value={c.id} onClick={(e) => {deleteContactWrapper(e.currentTarget.value)}}>
+                    <DeleteIcon value={c.id} w={6} h={6} />  
+                  </Button>
+                </Td>
+                <Td>
+                  <Link to={'/contact/'+userId+'/'+c.id}>
+                    <Button value={c.id}>
+                      <EditIcon w={6} h={6} />                    
+                    </Button>
+                  </Link>
+                </Td>
+              </Tr>
             );
           })}
-          <tr></tr>
-        </tbody>
-      </table>
+
+        </Tbody>
+      </Table>
     </div>
     <Pagination
         contactsPerPage={contactsPerPage}
         totalContacts={contacts.length}
         paginate={paginate}
       />
-  </div>
+  </Box>
 )};
 
 

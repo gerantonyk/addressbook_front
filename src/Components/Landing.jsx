@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react"
 import {Link} from 'react-router-dom'   
 import { useQuery} from "@apollo/client";
 import { GET_USERS } from "../Graphql/Queries";
-
-
+import { Box,Button,Heading,Select } from "@chakra-ui/react"
 
 export default function Landing() {
   const [user, setUser] = useState(''); 
@@ -23,20 +22,19 @@ export default function Landing() {
 
   return (
   
-    <div className= 'vacio'>
+    <div align="center">
  
-    <br></br>
-    <br></br>
-      <h1>Select an user</h1>
-      
-      <br></br>
-      <br></br>
+      <Box bgGradient="linear(to-t, teal.200, teal.500)" w="100%" p={4} color="white">
+        <Heading>Select an user</Heading>
+      </Box>
 
-      <select onChange={(e)=>onChange(e.target.value)} value={user}>
+      
+      
+      <Select size="md" m={10} w={"50%"} onChange={(e)=>onChange(e.target.value)} value={user}>
             {users && users.map((u,id) => <option id ={u.id} key={u.id} value={u.id}>{u.email}</option>)}
-      </select> 
+      </Select> 
       {user?<Link to={'/contacts/'+user}>                 
-        <button type="button">¡Ingresar!</button>  
+        <Button type="button" bg="teal" color="white"  m={2}>Log in</Button>  
       </Link>:<></>}
       
     </div>

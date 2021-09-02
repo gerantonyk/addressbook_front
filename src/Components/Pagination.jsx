@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Box,Button,HStack} from "@chakra-ui/react"
 const Pagination = ({ contactsPerPage, totalContacts, paginate }) => {
   const pageNumbers = [];
 
@@ -8,17 +8,15 @@ const Pagination = ({ contactsPerPage, totalContacts, paginate }) => {
   }
 
   return (
-    <nav>
-      <ul className='pagination'>
+    <Box bgGradient="linear(to-t, teal.500, teal.200)" w="100%" p={4}>
+      <HStack justifyContent="center" spacing="0.5rem">
         {pageNumbers.map(number => (
-          <li key={number} className='page-item'>
-            <button onClick={() => paginate(number)} className='page-link'>
+            <Button bg="white" key={number} onClick={() => paginate(number)} className='page-link'>
               {number}
-            </button>
-          </li>
+            </Button>
         ))}
-      </ul>
-    </nav>
+      </HStack>
+    </Box>
   );
 };
 
