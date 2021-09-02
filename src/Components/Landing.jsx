@@ -12,7 +12,7 @@ export default function Landing() {
   useEffect(() => {
     if (data) {
       setUsers(data.users);
-      setUser(data.users[0])
+      setUser(data.users[0].id)
     }
   }, [data]);
   function onChange(user) {

@@ -23,3 +23,11 @@ mutation updateContact($id: Int!,$data:ContactCreateInput!)  {
   }
 }
 `;
+
+export const CREATE_CONTACT= gql`
+mutation createContact($id: Int!,$data:ContactCreateInput!)  {
+  createContact(id: $id, data:$data) {
+    name
+  }
+}
+`;
