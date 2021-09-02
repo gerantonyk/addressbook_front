@@ -5,6 +5,8 @@ import { GET_CONTACTS } from "../Graphql/Queries";
 import { useMutation } from "@apollo/client";
 import { DELETE_CONTACT } from "../Graphql/Mutations";
 import Pagination from "./Pagination";
+import BackButton from "./BackButton";
+import { useHistory } from "react-router";
 import { AddIcon,EditIcon,DeleteIcon} from '@chakra-ui/icons'
 import { 
   Box,
@@ -22,6 +24,7 @@ import {
 
 export default function Contacts({userId}) {
 
+  const {push} = useHistory()
   const [currentPage,setCurrentPage] = useState('1')
   const [contactsPerPage] = useState('5')
   const [contacts, setContacts] = useState([]); 
@@ -47,6 +50,10 @@ function deleteContactWrapper(contactId) {
 
 }
 
+function goBack() {
+  push('/')
+}
+
 function paginate(pageNumber) {
   setCurrentPage(pageNumber)
 }
@@ -61,6 +68,7 @@ const currentContacts     = contacts.slice(indexOfFirstContact,indexOfLastContac
 return (
   <Box w="100%">
       <Box bgGradient="linear(to-t, teal.200, teal.500)" w="100%" p={4} color="white">
+        <BackButton onClick={goBack}></BackButton>
         <Heading>Contacts</Heading>
       </Box>
       <Box  align="right" mt={2} w="100%">

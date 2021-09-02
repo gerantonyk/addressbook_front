@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box,Button,HStack} from "@chakra-ui/react"
-const Pagination = ({ contactsPerPage, totalContacts, paginate }) => {
+
+export default function Pagination({ contactsPerPage, totalContacts, paginate }){
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalContacts / contactsPerPage); i++) {
@@ -19,5 +20,3 @@ const Pagination = ({ contactsPerPage, totalContacts, paginate }) => {
     </Box>
   );
 };
-
-export default Pagination;

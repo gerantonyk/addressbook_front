@@ -3,6 +3,7 @@ import { useQuery,useMutation} from "@apollo/client";
 import {GET_CONTACT,GET_CONTACTS } from "../Graphql/Queries";
 import {UPDATE_CONTACT,CREATE_CONTACT} from "../Graphql/Mutations";
 import { useHistory } from "react-router";
+import BackButton from "./BackButton";
 import {
 Input,
 Text,
@@ -70,6 +71,10 @@ export default function ContactForm({contactId,userId}) {
     return error
   }
 
+  function goBack() {
+    push('/contacts/'+userId)
+  }
+  
   function handleChange(e) {
     setContact({...contact,[e.target.name]:e.target.value}) 
     setErrors({...errors,[e.target.name]:validate(e)}) 
@@ -97,7 +102,7 @@ export default function ContactForm({contactId,userId}) {
       }
     }
     refetch()
-    push('/contacts/'+userId)
+    goBack()
   }
 
     if (loading) return 'Submitting...';
@@ -108,6 +113,7 @@ export default function ContactForm({contactId,userId}) {
   return (
     <div align="center">
       <Box bgGradient="linear(to-t, teal.200, teal.500)" w="100%" p={4} color="white">
+        <BackButton onClick={goBack}></BackButton>
         <Heading>New contact</Heading>
       </Box>
       <Box h="80px" w="100%">
