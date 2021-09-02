@@ -41,7 +41,6 @@ export default function ContactForm({contactId,userId}) {
 
   useEffect((contact) => {
     if (data && data.contact ) {
-      console.log("Entro aca")      
       const obj={}
       for (const property in data.contact) {
         if (data.contact[property]!==null) {

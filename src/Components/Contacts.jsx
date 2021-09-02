@@ -34,7 +34,6 @@ export default function Contacts({userId}) {
   
 
   useEffect(() => {
-    console.log(data)
     if (data) {
       if (data.user){setContacts(data.user.contacts)};
     }
