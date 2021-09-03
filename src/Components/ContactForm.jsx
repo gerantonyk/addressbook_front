@@ -95,14 +95,18 @@ export default function ContactForm({contactId,userId}) {
     if (contactId ){
       if (window.confirm("Are you sure you want to update this contact?")) {
         updateContact({variables: {id: parseInt(contactId),data}})} 
+        goBack()
+        refetch()
       }
     else {
       if (window.confirm("Are you sure you want to create this contact?")) {
         createContact({variables: {id: parseInt(userId),data}}) 
+        goBack()
+        refetch()
       }
     }
-    refetch()
-    goBack()
+
+
   }
 
     if (loading) return 'Submitting...';
