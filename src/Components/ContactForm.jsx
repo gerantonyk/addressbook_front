@@ -118,7 +118,7 @@ export default function ContactForm({contactId,userId}) {
     <div align="center">
       <Box bgGradient="linear(to-t, teal.200, teal.500)" w="100%" p={4} color="white">
         <BackButton onClick={goBack}></BackButton>
-        <Heading>New contact</Heading>
+        <Heading>{contactId?"Update contact":"New contact"}</Heading>
       </Box>
       <Box h="80px" w="100%">
         {errorvalues.map((v,i)=>
